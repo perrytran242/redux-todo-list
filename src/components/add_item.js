@@ -1,0 +1,49 @@
+import React, { Component } from 'react';
+import { Field, reduxForm } from 'redux-form';
+
+class AddItem extends Component {
+    renderInput(props) {
+        console.log('Render Inputs Arguments:', props);
+        return (
+            <div className="row">
+                <div className="s12">
+                    <label>Label Here</label>
+                    <input {...props.input} type="text"/>
+                </div>
+            </div>
+        );
+    }
+
+    saveItem = (values) => {
+        console.log('Form Values:', values);
+    }
+
+    render() {
+        const { handleSubmit } = this.props;
+
+        console.log('Add Item Props:', this.props);
+        return (
+            <div>
+                <h1 className="center">Add Item</h1>
+                <div className="row">
+                    <div className="col s8 offset-s2">
+                    {/* took handleSubmit from this.props */}
+                        <form onSubmit={handleSubmit(this.saveItem)}>
+                            <Field name="title" component={this.renderInput}/>
+                            <Field name="details" component={this.renderInput}/>
+                            <div className="row">
+                                <div className="s12 right-align">
+                                    <button className="btn blue-grey darken-1">Add Item</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+}
+
+export default reduxForm({
+    form: 'add-item',
+})(AddItem);
