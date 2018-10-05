@@ -1,24 +1,31 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { addListItem } from '../actions';
 
 class AddItem extends Component {
-    renderInput(props) {
-        console.log('Render Inputs Arguments:', props);
+    renderInput( { input, label, meta: { touched, error } }){
+
         return (
             <div className="row">
                 <div className="s12">
-                    <label>Label Here</label>
-                    <input {...props.input} type="text"/>
+                    <label>{ label }</label>
+                    <input { ...input } type="text" autoComplete="off" />
+                    <p className="red-text text-darken-2">{ touched && error }</p>
                 </div>
             </div>
         );
     }
-
-    saveItem = (values) => {
+    // async await for an asychronous call.
+    saveItem = async (values) => {
         console.log('Form Values:', values);
+
+        await this.props.addListItem(values);
+
+        this.props.history.push('/');
     }
 
-    render() {
+    render(){
         const { handleSubmit } = this.props;
 
         console.log('Add Item Props:', this.props);
@@ -27,10 +34,10 @@ class AddItem extends Component {
                 <h1 className="center">Add Item</h1>
                 <div className="row">
                     <div className="col s8 offset-s2">
-                    {/* took handleSubmit from this.props */}
+                    {/* took handleSubmit method from this.props */}
                         <form onSubmit={handleSubmit(this.saveItem)}>
-                            <Field name="title" component={this.renderInput}/>
-                            <Field name="details" component={this.renderInput}/>
+                            <Field name="title" component={ this.renderInput } label="Title" />
+                            <Field name="details" component={ this.renderInput } label="Details" />
                             <div className="row">
                                 <div className="s12 right-align">
                                     <button className="btn blue-grey darken-1">Add Item</button>
@@ -44,6 +51,25 @@ class AddItem extends Component {
     }
 }
 
-export default reduxForm({
+function validate ( { title, details} ) {
+    const errors = {};
+
+    if(!title) {
+        errors.title = 'Please give your item a title.';
+    }
+    if(!details) {
+        errors.details = 'Please give your item some details';
+    }
+
+    return errors;
+
+}
+
+AddItem = reduxForm({
     form: 'add-item',
+    validate: validate, 
+})(AddItem);
+
+export default connect(null, {
+    addListItem: addListItem,
 })(AddItem);

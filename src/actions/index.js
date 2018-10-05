@@ -13,3 +13,12 @@ export function getListData() {
         payload: response,
     }
 }
+
+export function addListItem(item) {
+    const response = axios.post(`${BASE_URL}/todos${API_KEY}`, item);
+
+    return {
+        type: types.ADD_LIST_ITEM,
+        payload: response,
+    }
+}
