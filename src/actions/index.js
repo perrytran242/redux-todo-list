@@ -22,3 +22,24 @@ export function addListItem(item) {
         payload: response,
     }
 }
+
+export function getSingleItem(id) {
+    const response = axios.get(`${BASE_URL}/todos/${id + API_KEY}`);
+    return {
+        type: types.GET_SINGLE_ITEM,
+        payload: response,
+    }
+}
+
+export function clearSingleItem() {
+    return { type: types.CLEAR_SINGLE_ITEM };
+}
+
+export function toggleComplete(id) {
+    const response = axios.put(`${BASE_URL}/todos/${id+API_KEY}`)    
+
+    return {
+        type: types.TOGGLE_COMPLETE,
+        payload: response,
+    }
+}
