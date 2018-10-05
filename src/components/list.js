@@ -18,7 +18,6 @@ class List extends Component {
                 </li>
             )
         }); 
-        console.log('List Props:', this.props);
         return (
             <div>
                 <h1 className="center">To Do List</h1>

@@ -4,14 +4,12 @@ import { getSingleItem, clearSingleItem, toggleComplete } from '../actions';
 
 class SingleItem extends Component {
     componentDidMount() {
-        console.log('Item ID:', this.props.match.params.itemId);
         this.props.getSingleItem(this.props.match.params.itemId);
     }
     componentWillUnmount() {    
         this.props.clearSingleItem();
     }
     render(){
-        console.log('Single Item:', this.props.item);
         const { item, toggleComplete, match: { params } } = this.props;
         return (    
             <div className="center">
@@ -26,7 +24,6 @@ class SingleItem extends Component {
 }
 
 function mapStateToProps(state){
-    console.log(state);
     return {
         item: state.list.single,
     };
